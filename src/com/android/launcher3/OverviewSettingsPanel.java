@@ -12,9 +12,9 @@ import com.android.launcher3.list.PinnedHeaderListView;
 import com.android.launcher3.list.SettingsPinnedHeaderAdapter;
 
 public class OverviewSettingsPanel {
-    public static final String ANDROID_SETTINGS = "org.cyanogenmod.theme.chooser";
+    public static final String ANDROID_SETTINGS = "com.android.settings";
     public static final String THEME_SETTINGS =
-            "org.cyanogenmod.theme.chooser.ChooserActivity";
+            "com.android.settings.Settings$ThemeSettingsActivity";
     public static final int HOME_SETTINGS_POSITION = 0;
     public static final int DRAWER_SETTINGS_POSITION = 1;
 
@@ -40,11 +40,11 @@ public class OverviewSettingsPanel {
                 res.getString(R.string.drawer_settings)};
         String[] values = new String[] {
                 res.getString(R.string.home_screen_search_text),
-                res.getString(R.string.page_scroll_effect_text),
+                res.getString(R.string.scroll_effect_text),
                 res.getString(R.string.larger_icons_text),
                 res.getString(R.string.hide_icon_labels)};
         String[] valuesDrawer = new String[] {
-                res.getString(R.string.drawer_scroll_effect_text),
+                res.getString(R.string.scroll_effect_text),
                 res.getString(R.string.drawer_sorting_text),
                 res.getString(R.string.hide_icon_labels)};
 
@@ -82,7 +82,9 @@ public class OverviewSettingsPanel {
         widgetButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                mLauncher.showAllApps(true, AppsCustomizePagedView.ContentType.Widgets, true);
+                if (!mLauncher.getWorkspace().isSwitchingState()) {
+                    mLauncher.showAllApps(true, AppsCustomizePagedView.ContentType.Widgets, true);
+                }
             }
         });
         widgetButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
@@ -91,7 +93,9 @@ public class OverviewSettingsPanel {
         wallpaperButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                mLauncher.startWallpaper();
+                if (!mLauncher.getWorkspace().isSwitchingState()) {
+                    mLauncher.startWallpaper();
+                }
             }
         });
         wallpaperButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
@@ -100,7 +104,9 @@ public class OverviewSettingsPanel {
         themesButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                mLauncher.startThemeSettings();
+                if (!mLauncher.getWorkspace().isSwitchingState()) {
+                    mLauncher.startThemeSettings();
+                }
             }
         });
         themesButton.setOnTouchListener(mLauncher.getHapticFeedbackTouchListener());
@@ -109,7 +115,9 @@ public class OverviewSettingsPanel {
         defaultScreenButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                mLauncher.getWorkspace().onClickDefaultScreenButton();
+                if (!mLauncher.getWorkspace().isSwitchingState()) {
+                    mLauncher.getWorkspace().onClickDefaultScreenButton();
+                }
             }
         });
 
@@ -153,7 +161,7 @@ public class OverviewSettingsPanel {
         } else {
             String[] values = new String[] {
                     res.getString(R.string.home_screen_search_text),
-                    res.getString(R.string.page_scroll_effect_text),
+                    res.getString(R.string.scroll_effect_text),
                     res.getString(R.string.larger_icons_text),
                     res.getString(R.string.hide_icon_labels)};
             mSettingsAdapter.changeCursor(0, createCursor(res
