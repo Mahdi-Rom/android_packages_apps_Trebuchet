@@ -664,7 +664,6 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         textView.setTag(item);
         textView.setTextColor(getResources().getColor(R.color.folder_items_text_color));
         textView.setShadowsEnabled(false);
-        Utilities.applyTypeface(textView);
         textView.setGlowColor(getResources().getColor(R.color.folder_items_glow_color));
 
         textView.setOnClickListener(this);
@@ -1209,6 +1208,9 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     }
 
     private void replaceFolderWithFinalItem() {
+        if (mInfo.hidden) {
+            return;
+        }
         // Add the last remaining child to the workspace in place of the folder
         Runnable onCompleteRunnable = new Runnable() {
             @Override
