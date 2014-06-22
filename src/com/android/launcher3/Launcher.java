@@ -598,7 +598,7 @@ public class Launcher extends Activity
 
         // Currently the only custom content available is the GEL launcher integration,
         // only supported on CyanogenMod.
-        return globalSearchActivity != null && isCM();
+        return globalSearchActivity != null;
     }
 
     public boolean isGelIntegrationEnabled() {
@@ -609,14 +609,6 @@ public class Launcher extends Activity
         if(isGelIntegrationEnabled() && isGelIntegrationSupported()) {
             GelIntegrationHelper.getInstance().registerSwipeBackGestureListenerAndStartGel(this);
         }
-    }
-
-    /**
-     * Check if the device running this application is running CyanogenMod.
-     * @return true if this device is running CM.
-     */
-    protected boolean isCM() {
-        return getPackageManager().hasSystemFeature("com.cyanogenmod.android");
     }
 
     /**
