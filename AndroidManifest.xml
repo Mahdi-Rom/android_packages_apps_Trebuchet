@@ -53,7 +53,6 @@
         android:protectionLevel="signature"
         />
 
-    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -75,6 +74,7 @@
         android:icon="@mipmap/ic_launcher_home"
         android:hardwareAccelerated="true"
         android:largeHeap="@bool/config_largeHeap"
+        android:requiredForAllUsers="true"
         android:supportsRtl="true">
         <activity
             android:name="org.cyanogenmod.trebuchet.TrebuchetLauncher"
