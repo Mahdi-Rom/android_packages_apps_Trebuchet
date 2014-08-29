@@ -622,7 +622,7 @@ public class Launcher extends Activity
                 CustomContentMode.DISABLED.getValue()));
     }
 
-    void initializeDynamicGrid() {
+    private void initializeDynamicGrid() {
         LauncherAppState.setApplicationContext(getApplicationContext());
         LauncherAppState app = LauncherAppState.getInstance();
 
@@ -690,7 +690,7 @@ public class Launcher extends Activity
 
         // Currently the only custom content available is the GEL launcher integration,
         // only supported on CyanogenMod.
-        return globalSearchActivity != null;
+        return globalSearchActivity != null && isCM();
     }
 
     public CustomContentMode getCustomContentMode() {
@@ -705,6 +705,14 @@ public class Launcher extends Activity
         if(isCustomContentModeGel() && isGelIntegrationSupported()) {
             GelIntegrationHelper.getInstance().registerSwipeBackGestureListenerAndStartGel(this, mWorkspace.isLayoutRtl());
         }
+    }
+
+    /**
+     * Check if the device running this application is running CyanogenMod.
+     * @return true if this device is running CM.
+     */
+    protected boolean isCM() {
+        return getPackageManager().hasSystemFeature("com.cyanogenmod.android");
     }
 
     /**
@@ -1148,10 +1156,6 @@ public class Launcher extends Activity
         super.onResume();
 
         updateGridIfNeeded();
-
-        if(isCustomContentModeGel() && isGelIntegrationSupported()) {
-            GelIntegrationHelper.getInstance().handleGelResume();
-        }
 
         // Restore the previous launcher state
         if (mOnResumeState == State.WORKSPACE) {
@@ -2750,6 +2754,8 @@ public class Launcher extends Activity
                 if (mAppsCustomizeContent.getContentType() ==
                         AppsCustomizePagedView.ContentType.Applications) {
                     showWorkspace(true);
+                    // Background was set to gradient in onPause(), restore to black if in all apps.
+                    setWorkspaceBackground(mState == State.WORKSPACE);
                 } else {
                     showOverviewMode(true);
                 }
@@ -3761,6 +3767,7 @@ public class Launcher extends Activity
         if (resetPageToZero) {
             mAppsCustomizeLayout.reset();
         }
+        mAppsCustomizeContent.sortApps();
         showAppsCustomizeHelper(animated, false, contentType);
         mAppsCustomizeLayout.requestFocus();
 
